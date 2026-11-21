@@ -1,0 +1,36 @@
+<section class="section auth">
+  <div class="page-width auth__inner">
+    <div data-auth-login>
+      <h1 class="h1">{{ 'customer.login.title' | t }}</h1>
+      {%- form 'customer_login', novalidate: 'novalidate', class: 'auth__form' -%}
+        {%- if form.errors -%}<p class="form-error" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+        <div class="field"><label for="LoginEmail">{{ 'customer.email' | t }}</label><input class="input" id="LoginEmail" type="email" name="customer[email]" autocomplete="email" required></div>
+        {%- if form.password_needed -%}
+          <div class="field"><label for="LoginPassword">{{ 'customer.password' | t }}</label><input class="input" id="LoginPassword" type="password" name="customer[password]" autocomplete="current-password" required></div>
+          <a href="#recover" class="link link--reveal" data-auth-toggle>{{ 'customer.login.forgot' | t }}</a>
+        {%- endif -%}
+        <button class="btn btn--full">{{ 'customer.login.submit' | t }}</button>
+        <a href="{{ routes.account_register_url }}" class="link">{{ 'customer.register.cta' | t }} <span class="arrow">→</span></a>
+      {%- endform -%}
+    </div>
+    <div data-auth-recover hidden id="recover">
+      <h2 class="h1">{{ 'customer.recover.title' | t }}</h2>
+      {%- form 'recover_customer_password', class: 'auth__form' -%}
+        {%- if form.posted_successfully? -%}<p class="form-success">{{ 'customer.recover.success' | t }}</p>{%- endif -%}
+        <div class="field"><label for="RecoverEmail">{{ 'customer.email' | t }}</label><input class="input" id="RecoverEmail" type="email" name="email" autocomplete="email" required></div>
+        <button class="btn btn--full">{{ 'customer.recover.submit' | t }}</button>
+        <a href="#login" class="link link--reveal" data-auth-toggle>{{ 'customer.recover.cancel' | t }}</a>
+      {%- endform -%}
+    </div>
+    {%- if shop.checkout.guest_login -%}
+      <div>
+        <h2 class="meta">{{ 'customer.login.guest' | t }}</h2>
+        {%- form 'guest_login' -%}<button class="btn btn--outline">{{ 'customer.login.guest_cta' | t }}</button>{%- endform -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Login", "settings": [] }
+{% endschema %}

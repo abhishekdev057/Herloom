@@ -1,0 +1,92 @@
+# Herloom — metafield definitions (Shopify Admin GraphQL API, 2025-01+)
+# Run each mutation once (Shopify admin → GraphiQL app, or via the Shopify MCP).
+# Product metafields are also editable in Admin → Products → (product) → Metafields.
+
+mutation ProductMetafields {
+  moods: metafieldDefinitionCreate(definition: {
+    name: "Moods", namespace: "custom", key: "moods", ownerType: PRODUCT,
+    type: "list.single_line_text_field",
+    description: "Casual / Smart Casual / Resort / Party & Evening / Statement",
+    validations: [{ name: "choices", value: "[\"Casual\",\"Smart Casual\",\"Resort\",\"Party & Evening\",\"Statement\"]" }],
+    access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+
+  fabric: metafieldDefinitionCreate(definition: {
+    name: "Fabric", namespace: "custom", key: "fabric", ownerType: PRODUCT,
+    type: "single_line_text_field", access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+
+  fabricFeel: metafieldDefinitionCreate(definition: {
+    name: "Fabric feel", namespace: "custom", key: "fabric_feel", ownerType: PRODUCT,
+    type: "single_line_text_field", access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+
+  fitType: metafieldDefinitionCreate(definition: {
+    name: "Fit type", namespace: "custom", key: "fit_type", ownerType: PRODUCT,
+    type: "single_line_text_field",
+    validations: [{ name: "choices", value: "[\"Relaxed\",\"Regular\",\"Tailored\",\"Oversized\"]" }],
+    access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+
+  leadTime: metafieldDefinitionCreate(definition: {
+    name: "Lead time (days)", namespace: "custom", key: "lead_time_days", ownerType: PRODUCT,
+    type: "number_integer", access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+
+  mto: metafieldDefinitionCreate(definition: {
+    name: "Made to order", namespace: "custom", key: "made_to_order", ownerType: PRODUCT,
+    type: "boolean", access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+
+  care: metafieldDefinitionCreate(definition: {
+    name: "Care", namespace: "custom", key: "care", ownerType: PRODUCT,
+    type: "multi_line_text_field", access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+
+  modelInfo: metafieldDefinitionCreate(definition: {
+    name: "Model info", namespace: "custom", key: "model_info", ownerType: PRODUCT,
+    type: "single_line_text_field", access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+
+  makerNote: metafieldDefinitionCreate(definition: {
+    name: "Maker note", namespace: "custom", key: "maker_note", ownerType: PRODUCT,
+    type: "multi_line_text_field", access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+
+  styleIt: metafieldDefinitionCreate(definition: {
+    name: "Style it looks", namespace: "custom", key: "style_it_looks", ownerType: PRODUCT,
+    type: "list.file_reference",
+    description: "2–3 images. Set each image's alt text to 'Mood — caption', e.g. 'Casual — sleeves rolled, with denim'.",
+    validations: [{ name: "file_type_options", value: "[\"Image\"]" }],
+    access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+}
+
+mutation CollectionMetafields {
+  banner: metafieldDefinitionCreate(definition: {
+    name: "Banner image", namespace: "custom", key: "banner", ownerType: COLLECTION,
+    type: "file_reference", validations: [{ name: "file_type_options", value: "[\"Image\"]" }],
+    access: { storefront: PUBLIC_READ }
+  }) { createdDefinition { id } userErrors { field message } }
+}
+
+mutation CustomerMetafields {
+  measurements: metafieldDefinitionCreate(definition: {
+    name: "Saved measurements", namespace: "custom", key: "measurements", ownerType: CUSTOMER,
+    type: "json",
+    description: "{\"bust\":\"34\",\"waist\":\"28\",\"shoulder\":\"14.5\",\"sleeve_length\":\"23\",\"shirt_length\":\"26\"} — written by Shopify Flow from order line-item properties."
+  }) { createdDefinition { id } userErrors { field message } }
+}
+
+mutation OrderMetafields {
+  maker: metafieldDefinitionCreate(definition: {
+    name: "Maker name", namespace: "custom", key: "maker_name", ownerType: ORDER, type: "single_line_text_field"
+  }) { createdDefinition { id } userErrors { field message } }
+  note: metafieldDefinitionCreate(definition: {
+    name: "Stage note", namespace: "custom", key: "stage_note", ownerType: ORDER, type: "multi_line_text_field"
+  }) { createdDefinition { id } userErrors { field message } }
+  photo: metafieldDefinitionCreate(definition: {
+    name: "Stage photo", namespace: "custom", key: "stage_photo", ownerType: ORDER, type: "file_reference",
+    validations: [{ name: "file_type_options", value: "[\"Image\"]" }]
+  }) { createdDefinition { id } userErrors { field message } }
+}

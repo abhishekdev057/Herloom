@@ -1,0 +1,27 @@
+<section class="section rich-text rich-text--{{ section.settings.align }}{% if section.settings.tight %} section--tight{% endif %}">
+  <div class="page-width rich-text__inner">
+    {%- if section.settings.eyebrow != blank -%}<p class="meta muted reveal">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="{{ section.settings.heading_size }} reveal">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}<div class="lede rte reveal">{{ section.settings.text }}</div>{%- endif -%}
+    {%- if section.settings.link_label != blank -%}<a href="{{ section.settings.link | default: '#' }}" class="link reveal">{{ section.settings.link_label }} <span class="arrow">→</span></a>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rich text",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "One piece at a time." },
+    { "type": "select", "id": "heading_size", "label": "Heading size", "default": "h1", "options": [ { "value": "display", "label": "Oversized" }, { "value": "h1", "label": "Large" }, { "value": "h2", "label": "Medium" } ] },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "link_label", "label": "Link label" },
+    { "type": "url", "id": "link", "label": "Link" },
+    { "type": "select", "id": "align", "label": "Alignment", "default": "center", "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Centre" }, { "value": "offset", "label": "Offset (editorial)" } ] },
+    { "type": "checkbox", "id": "tight", "label": "Less vertical space", "default": false }
+  ],
+  "presets": [{ "name": "Rich text" }]
+}
+{% endschema %}

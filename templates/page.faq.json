@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": { "type": "item", "settings": { "question": "How long does a made-to-order shirt take?", "answer": "<p>Each shirt is cut and stitched after you order. Most pieces ship in 7–10 days. You'll get an update at every stage.</p>" } },
+        "q2": { "type": "item", "settings": { "question": "Can I order to my own measurements?", "answer": "<p>Yes. On any shirt choose “Make it to my measurements” and enter bust, waist, shoulder, sleeve and length. See our <a href=\"/pages/size-guide\">size guide</a> for how to measure.</p>" } },
+        "q3": { "type": "item", "settings": { "question": "Can I return a made-to-order piece?", "answer": "<p>Because each shirt is made for you, we offer a free alteration instead of a return. [Client to confirm final policy.]</p>" } },
+        "q4": { "type": "item", "settings": { "question": "How do I track my order?", "answer": "<p>Sign in to your account, or open the link in your confirmation email. Visit <a href=\"/pages/track-order\">Track order</a>.</p>" } },
+        "q5": { "type": "item", "settings": { "question": "Which payment methods do you accept?", "answer": "<p>UPI, cards, net banking and wallets via Razorpay.</p>" } },
+        "q6": { "type": "item", "settings": { "question": "Do you ship internationally?", "answer": "<p>[Client to confirm.]</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "settings": { "eyebrow": "Help", "heading": "Questions, answered." }
+    }
+  },
+  "order": ["faq"]
+}

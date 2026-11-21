@@ -1,0 +1,100 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-campaign",
+      "settings": {
+        "label": "The Summer Edit — Collection 01",
+        "heading": "Herloom",
+        "subheading": "Shirts, perfected. For every version of her.",
+        "align": "bottom-left",
+        "height": "full",
+        "scrim": 30,
+        "cta1_label": "Shop New In",
+        "cta1_link": "shopify://collections/new-in",
+        "cta2_label": "View Campaign",
+        "cta2_link": "/pages/lookbook",
+        "scroll_cue": true
+      }
+    },
+    "intro": {
+      "type": "collection-intro",
+      "settings": {
+        "eyebrow": "New collection",
+        "heading": "Collection 01",
+        "text": "<p>Breathable linens and fluid silks, cut and stitched by hand, one piece at a time.</p>",
+        "link_label": "Discover the collection",
+        "link": "shopify://collections/new-in",
+        "layout": "split"
+      }
+    },
+    "grid": {
+      "type": "featured-products",
+      "settings": { "eyebrow": "New in", "heading": "The first pieces", "collection": "new-in", "limit": 8, "columns": 4, "link_label": "Shop all", "white_bg": false }
+    },
+    "look": {
+      "type": "shop-the-look",
+      "blocks": {
+        "h1": { "type": "hotspot", "settings": { "x": 48, "y": 38 } },
+        "h2": { "type": "hotspot", "settings": { "x": 60, "y": 72 } }
+      },
+      "block_order": ["h1", "h2"],
+      "settings": {
+        "eyebrow": "Shop the look",
+        "heading": "From coffee to cocktails.",
+        "text": "<p>One linen shirt, worn open over a slip at noon, knotted at the waist by evening.</p>",
+        "link_label": "View the lookbook",
+        "link": "/pages/lookbook"
+      }
+    },
+    "moods": {
+      "type": "mood-edits",
+      "blocks": {
+        "m1": { "type": "mood", "settings": { "collection": "casual", "title": "Casual", "description": "For coffee runs, errands and slow weekends." } },
+        "m2": { "type": "mood", "settings": { "collection": "smart-casual", "title": "Smart Casual", "description": "Polished enough for the boardroom, easy enough for lunch." } },
+        "m3": { "type": "mood", "settings": { "collection": "resort", "title": "Resort", "description": "For slow mornings and sunlit getaways." } },
+        "m4": { "type": "mood", "settings": { "collection": "party-evening", "title": "Party & Evening", "description": "Fluid fabrics for dinners and late nights." } },
+        "m5": { "type": "mood", "settings": { "collection": "statement", "title": "Statement", "description": "Elevated pieces for dressing up." } }
+      },
+      "block_order": ["m1", "m2", "m3", "m4", "m5"],
+      "settings": { "eyebrow": "Shop by mood", "heading": "A shirt for every mood." }
+    },
+    "atelier": {
+      "type": "media-split",
+      "blocks": {
+        "p1": { "type": "point", "settings": { "title": "Made to order", "text": "Cut only once you order." } },
+        "p2": { "type": "point", "settings": { "title": "Handcrafted", "text": "Stitched by one maker, start to finish." } },
+        "p3": { "type": "point", "settings": { "title": "Natural fabrics", "text": "Linen, cotton and silk that breathe." } },
+        "p4": { "type": "point", "settings": { "title": "Fit-first", "text": "Your size, or your measurements." } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4"],
+      "settings": {
+        "ratio": "4-5", "media_side": "left", "bg": "white",
+        "eyebrow": "The Atelier",
+        "heading": "Made for you. One piece at a time.",
+        "text": "<p>Nothing waits in a warehouse. Each shirt is cut and stitched by hand only after you order it.</p>",
+        "link_label": "Inside the Atelier",
+        "link": "/pages/atelier"
+      }
+    },
+    "signature": {
+      "type": "product-slider",
+      "settings": { "eyebrow": "Signature pieces", "heading": "The Signature Shirt", "collection": "bestsellers", "limit": 10, "link_label": "Shop bestsellers" }
+    },
+    "fabrics": {
+      "type": "fabric-strip",
+      "blocks": {
+        "f1": { "type": "fabric", "settings": { "name": "Linen", "word": "airy", "link": "shopify://collections/linen" } },
+        "f2": { "type": "fabric", "settings": { "name": "Cotton poplin", "word": "crisp", "link": "shopify://collections/cotton-poplin" } },
+        "f3": { "type": "fabric", "settings": { "name": "Silk", "word": "fluid", "link": "shopify://collections/silk" } },
+        "f4": { "type": "fabric", "settings": { "name": "Satin", "word": "luminous", "link": "shopify://collections/satin" } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": { "eyebrow": "Fabrics", "heading": "Breathable by nature. Elevated by design.", "link_label": "The fabric library", "link": "/pages/fabrics" }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": { "heading": "Be the first to see new pieces.", "text": "New collections and atelier notes. Twice a month, at most.", "bg": "sand" }
+    }
+  },
+  "order": ["hero", "intro", "grid", "look", "moods", "atelier", "signature", "fabrics", "newsletter"]
+}

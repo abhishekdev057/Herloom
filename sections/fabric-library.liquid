@@ -1,0 +1,43 @@
+<section class="section fabrics">
+  <div class="page-width">
+    <ol class="fabrics__list" role="list">
+      {%- for block in section.blocks -%}
+        {%- assign b = block.settings -%}
+        <li class="fabric-row reveal" id="{{ b.name | handle }}" {{ block.shopify_attributes }}>
+          <div class="media ratio-4-5">{% render 'media-image', image: b.image, sizes: '(min-width: 1024px) 40vw, 100vw', alt: b.name, placeholder: 'collection-2' %}</div>
+          <div class="fabric-row__text">
+            <span class="meta muted">0{{ forloop.index }}</span>
+            <h2 class="h1">{{ b.name }}</h2>
+            <p class="lede">{{ b.feel }}</p>
+            <dl class="fabric-row__specs">
+              <div><dt class="meta muted">{{ 'fabric.weight' | t }}</dt><dd>{{ b.weight }}</dd></div>
+              <div><dt class="meta muted">{{ 'fabric.breathability' | t }}</dt><dd>{% render 'dots', value: b.breathability %}</dd></div>
+              <div><dt class="meta muted">{{ 'fabric.best_for' | t }}</dt><dd>{{ b.best_for }}</dd></div>
+              <div><dt class="meta muted">{{ 'fabric.care' | t }}</dt><dd>{{ b.care }}</dd></div>
+            </dl>
+            {%- if b.collection != blank -%}<a href="{{ b.collection.url }}" class="link">{{ 'fabric.shop' | t: fabric: b.name }} <span class="arrow">→</span></a>{%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Fabric library",
+  "blocks": [
+    { "type": "fabric", "name": "Fabric", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Macro image" },
+      { "type": "text", "id": "name", "label": "Name", "default": "Linen" },
+      { "type": "text", "id": "feel", "label": "Feel", "default": "Airy, textured, softens with every wash." },
+      { "type": "text", "id": "weight", "label": "Weight", "default": "Light · 150 GSM" },
+      { "type": "range", "id": "breathability", "label": "Breathability", "min": 1, "max": 5, "step": 1, "default": 5 },
+      { "type": "text", "id": "best_for", "label": "Best for", "default": "Resort, Casual" },
+      { "type": "text", "id": "care", "label": "Care", "default": "Cold gentle wash, line dry, warm iron." },
+      { "type": "collection", "id": "collection", "label": "Fabric collection" }
+    ] }
+  ],
+  "presets": [{ "name": "Fabric library", "blocks": [ { "type": "fabric" } ] }]
+}
+{% endschema %}

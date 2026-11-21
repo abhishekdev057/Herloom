@@ -1,0 +1,62 @@
+{%- comment -%}
+  Made-to-order production timeline.
+  Stage is driven by ORDER TAGS that the team adds in Shopify admin (or via Flow):
+    stage-cut · stage-stitching · stage-finishing · stage-dispatched · stage-delivered
+  Fulfilment also counts as "Dispatched". Optional order metafields:
+    custom.maker_name (single line) — "Your shirt is being stitched by Meera"
+    custom.stage_note (multi line)  — a short note shown under the current stage
+    custom.stage_photo (file)       — a photo from the atelier
+  Params: order
+{%- endcomment -%}
+{%- liquid
+  assign tags = order.tags | join: ',' | downcase
+  assign current = 0
+  if tags contains 'stage-cut'
+    assign current = 1
+  endif
+  if tags contains 'stage-stitching'
+    assign current = 2
+  endif
+  if tags contains 'stage-finishing'
+    assign current = 3
+  endif
+  if tags contains 'stage-dispatched' or order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial'
+    assign current = 4
+  endif
+  if tags contains 'stage-delivered'
+    assign current = 5
+  endif
+  if order.cancelled
+    assign current = -1
+  endif
+  assign maker = order.metafields.custom.maker_name.value
+  assign note = order.metafields.custom.stage_note.value
+  assign photo = order.metafields.custom.stage_photo.value
+  assign labels = 'timeline.received,timeline.cut,timeline.stitching,timeline.finishing,timeline.dispatched,timeline.delivered' | split: ','
+-%}
+<div class="timeline-wrap">
+  {%- if current == -1 -%}
+    <p class="muted">{{ 'timeline.cancelled' | t }}</p>
+  {%- else -%}
+    <ol class="timeline" role="list">
+      {%- for key in labels -%}
+        {%- assign i = forloop.index0 -%}
+        <li class="timeline__step{% if i < current %} is-done{% elsif i == current %} is-current{% endif %}" {% if i == current %}aria-current="step"{% endif %}>
+          <span class="timeline__dot" aria-hidden="true">{% if i < current %}{% render 'icon', name: 'check' %}{% endif %}</span>
+          <div class="timeline__text">
+            <span class="timeline__label">{{ key | t }}</span>
+            {%- if i == 0 -%}<span class="meta muted">{{ order.created_at | date: '%d %b %Y' }}</span>{%- endif -%}
+            {%- if i == current -%}
+              {%- if i == 2 and maker != blank -%}<span class="timeline__note">{{ 'timeline.stitched_by' | t: maker: maker }}</span>{%- endif -%}
+              {%- if note != blank -%}<span class="timeline__note">{{ note }}</span>{%- endif -%}
+              {%- if photo != blank -%}<div class="media ratio-4-5 timeline__photo">{{ photo | image_url: width: 600 | image_tag: loading: 'lazy', alt: 'From the atelier' }}</div>{%- endif -%}
+              {%- if i == 4 -%}
+                {%- for f in order.fulfillments -%}{%- if f.tracking_url -%}<a class="link" href="{{ f.tracking_url }}" target="_blank" rel="noopener">{{ 'timeline.track' | t }} {{ f.tracking_company }} <span class="arrow">→</span></a>{%- endif -%}{%- endfor -%}
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+  {%- endif -%}
+</div>

@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "intro": { "type": "rich-text", "settings": { "eyebrow": "Fabric library", "heading": "Breathable by nature. Elevated by design.", "heading_size": "h1", "text": "<p>Natural fibres only. Here's how each one feels, wears and ages.</p>", "align": "left" } },
+    "library": {
+      "type": "fabric-library",
+      "blocks": {
+        "linen": { "type": "fabric", "settings": { "name": "Linen", "feel": "Airy, textured, softens with every wash.", "weight": "Light · ~150 GSM", "breathability": 5, "best_for": "Resort, Casual", "care": "Cold gentle wash, line dry, warm iron.", "collection": "linen" } },
+        "poplin": { "type": "fabric", "settings": { "name": "Cotton poplin", "feel": "Crisp, smooth, holds a sharp collar.", "weight": "Light–medium · ~120 GSM", "breathability": 4, "best_for": "Smart Casual, Casual", "care": "Machine wash cold, hang dry, hot iron.", "collection": "cotton-poplin" } },
+        "silk": { "type": "fabric", "settings": { "name": "Silk", "feel": "Fluid, cool against the skin, softly lustrous.", "weight": "Light · 16–19 momme", "breathability": 4, "best_for": "Party & Evening, Statement", "care": "Hand wash cold or dry clean. Cool iron, reverse.", "collection": "silk" } },
+        "satin": { "type": "fabric", "settings": { "name": "Satin", "feel": "Luminous face, heavy drape.", "weight": "Medium", "breathability": 3, "best_for": "Statement, Evening", "care": "Dry clean recommended.", "collection": "satin" } },
+        "blend": { "type": "fabric", "settings": { "name": "Cotton-silk", "feel": "The ease of cotton with a quiet sheen.", "weight": "Light", "breathability": 4, "best_for": "Smart Casual, Evening", "care": "Hand wash cold, dry flat, cool iron.", "collection": "cotton-silk" } }
+      },
+      "block_order": ["linen", "poplin", "silk", "satin", "blend"],
+      "settings": {}
+    }
+  },
+  "order": ["intro", "library"]
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Herloom",
+    "theme_version": "1.0.0",
+    "theme_author": "Herloom",
+    "theme_documentation_url": "https://herloom.in",
+    "theme_support_url": "https://herloom.in/pages/contact"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo (for structured data)" },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon", "info": "32 × 32px PNG" }
+    ]
+  },
+  {
+    "name": "Colours",
+    "settings": [
+      { "type": "color", "id": "color_ivory", "label": "Ivory — background", "default": "#F7F4EF" },
+      { "type": "color", "id": "color_white", "label": "White — product backgrounds", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_ink", "label": "Ink — text & buttons", "default": "#151413" },
+      { "type": "color", "id": "color_stone", "label": "Stone — secondary text", "default": "#8C857C" },
+      { "type": "color", "id": "color_sand", "label": "Sand — dividers", "default": "#E6DFD4" },
+      { "type": "color", "id": "color_clay", "label": "Clay — rare accent", "default": "#9A5B45" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "select", "id": "font_source", "label": "Font source", "default": "google",
+        "options": [
+          { "value": "google", "label": "Instrument Serif + Manrope (Google Fonts)" },
+          { "value": "self", "label": "Self-hosted (upload .woff2 to theme assets)" }
+        ]
+      },
+      { "type": "text", "id": "font_display_file", "label": "Display font file name", "info": "e.g. canela-regular.woff2" },
+      { "type": "text", "id": "font_body_file", "label": "UI/body font file name", "info": "e.g. neue-haas-variable.woff2" },
+      { "type": "range", "id": "button_radius", "label": "Button corner radius", "min": 0, "max": 2, "step": 1, "unit": "px", "default": 0 }
+    ]
+  },
+  {
+    "name": "Made to order",
+    "settings": [
+      { "type": "checkbox", "id": "default_made_to_order", "label": "Treat all products as made to order", "info": "Per product override: metafield custom.made_to_order", "default": true },
+      { "type": "range", "id": "default_lead_time", "label": "Default lead time (days)", "min": 3, "max": 30, "step": 1, "default": 7, "info": "Per product override: metafield custom.lead_time_days" },
+      { "type": "page", "id": "size_guide_page", "label": "Size guide page (shown in drawer)" }
+    ]
+  },
+  {
+    "name": "Search",
+    "settings": [
+      { "type": "link_list", "id": "search_menu", "label": "Popular searches menu" }
+    ]
+  },
+  {
+    "name": "Newsletter",
+    "settings": [
+      { "type": "checkbox", "id": "newsletter_slide_in", "label": "Show delayed slide-in (not on homepage, once per visitor)", "default": false },
+      { "type": "range", "id": "newsletter_delay", "label": "Delay", "min": 10, "max": 90, "step": 5, "unit": "s", "default": 30 }
+    ]
+  },
+  {
+    "name": "Social & contact",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL", "default": "https://www.instagram.com/herloom.in" },
+      { "type": "text", "id": "social_pinterest", "label": "Pinterest URL" },
+      { "type": "text", "id": "contact_whatsapp", "label": "WhatsApp number (with country code)", "info": "e.g. +91 98xxxxxxx" }
+    ]
+  }
+]

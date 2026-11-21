@@ -1,0 +1,22 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": { "type": "menu", "settings": { "heading": "Shop", "menu": "footer-shop" } },
+        "help": { "type": "menu", "settings": { "heading": "Help", "menu": "footer-help" } },
+        "about": { "type": "menu", "settings": { "heading": "About", "menu": "footer-about" } }
+      },
+      "block_order": ["shop", "help", "about"],
+      "settings": {
+        "dark": false,
+        "newsletter_heading": "Be the first to see new pieces.",
+        "show_payment_icons": true,
+        "copyright": "Handmade in India, one piece at a time."
+      }
+    }
+  },
+  "order": ["footer"]
+}

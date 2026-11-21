@@ -1,0 +1,50 @@
+{%- comment -%} Atelier process: Fabric → Pattern → Cut → Stitch → Finish. Alternating large images. {%- endcomment -%}
+<section class="section process">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section-head"><div class="section-head__text">
+        <p class="meta muted">{{ section.settings.eyebrow }}</p>
+        <h2 class="h1">{{ section.settings.heading }}</h2>
+      </div></div>
+    {%- endif -%}
+    <ol class="process__list" role="list">
+      {%- for block in section.blocks -%}
+        <li class="process__step reveal" {{ block.shopify_attributes }}>
+          <div class="media ratio-4-5 process__media">{% render 'media-image', image: block.settings.image, sizes: '(min-width: 1024px) 50vw, 100vw', alt: block.settings.title, placeholder: 'lifestyle-2' %}</div>
+          <div class="process__text">
+            <span class="meta muted">{{ 'general.step' | t }} 0{{ forloop.index }}</span>
+            <h3 class="h1">{{ block.settings.title }}</h3>
+            <p class="lede">{{ block.settings.text }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Process steps",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The process" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "From bolt to you." }
+  ],
+  "blocks": [
+    { "type": "step", "name": "Step", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "title", "label": "Title", "default": "Fabric" },
+      { "type": "textarea", "id": "text", "label": "Text" }
+    ] }
+  ],
+  "presets": [{
+    "name": "Process steps",
+    "blocks": [
+      { "type": "step", "settings": { "title": "Fabric", "text": "Your length of linen, poplin or silk is chosen and set aside only when you order." } },
+      { "type": "step", "settings": { "title": "Pattern", "text": "We draft from your size, or your own measurements." } },
+      { "type": "step", "settings": { "title": "Cut", "text": "Cut by hand, one shirt at a time. No stacks, no waste." } },
+      { "type": "step", "settings": { "title": "Stitch", "text": "One maker sews your shirt from collar to hem." } },
+      { "type": "step", "settings": { "title": "Finish", "text": "Pressed, checked, wrapped, and signed with a handwritten card." } }
+    ]
+  }]
+}
+{% endschema %}

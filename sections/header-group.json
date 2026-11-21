@@ -1,0 +1,26 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "header": {
+      "type": "header",
+      "blocks": {
+        "col_mood": { "type": "column", "settings": { "heading": "By Mood", "menu": "shop-by-mood" } },
+        "col_style": { "type": "column", "settings": { "heading": "By Style", "menu": "shop-by-style" } },
+        "col_fabric": { "type": "column", "settings": { "heading": "By Fabric", "menu": "shop-by-fabric" } },
+        "col_featured": { "type": "column", "settings": { "heading": "Featured", "menu": "shop-featured" } },
+        "campaign": { "type": "image", "settings": { "label": "Collection 01", "title": "The Summer Edit", "link": "/pages/lookbook" } }
+      },
+      "block_order": ["col_mood", "col_style", "col_fabric", "col_featured", "campaign"],
+      "settings": {
+        "menu": "main-menu",
+        "mega_link_title": "Shop",
+        "mobile_menu": "main-menu",
+        "mood_menu": "shop-by-mood",
+        "transparent_home": true,
+        "logo_width": 140
+      }
+    }
+  },
+  "order": ["header"]
+}

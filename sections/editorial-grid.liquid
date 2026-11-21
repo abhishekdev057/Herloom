@@ -1,0 +1,46 @@
+{%- comment -%} Lookbook: staggered editorial images, each optionally linked to a product ("Shop this look"). {%- endcomment -%}
+<section class="section editorial">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section-head"><div class="section-head__text">
+        <p class="meta muted">{{ section.settings.eyebrow }}</p>
+        <h2 class="h1">{{ section.settings.heading }}</h2>
+      </div></div>
+    {%- endif -%}
+    <div class="editorial__grid">
+      {%- for block in section.blocks -%}
+        {%- assign p = block.settings.product -%}
+        <figure class="editorial__item editorial__item--{{ block.settings.size }} reveal" {{ block.shopify_attributes }}>
+          <div class="media {% if block.settings.size == 'wide' %}ratio-16-9{% else %}ratio-2-3{% endif %}">
+            {% render 'media-image', image: block.settings.image, sizes: '(min-width: 1024px) 50vw, 100vw', placeholder: 'lifestyle-2' %}
+          </div>
+          {%- if block.settings.caption != blank or p != blank -%}
+            <figcaption class="editorial__cap">
+              <span class="meta muted">{{ block.settings.caption }}</span>
+              {%- if p != blank -%}<a href="{{ p.url }}" class="link">{{ 'look.shop_this' | t }}: {{ p.title }} <span class="arrow">→</span></a>{%- endif -%}
+            </figcaption>
+          {%- endif -%}
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Editorial image grid",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Lookbook" },
+    { "type": "text", "id": "heading", "label": "Heading" }
+  ],
+  "blocks": [
+    { "type": "look", "name": "Look", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "select", "id": "size", "label": "Size", "default": "tall", "options": [ { "value": "tall", "label": "Portrait" }, { "value": "small", "label": "Small portrait (offset)" }, { "value": "wide", "label": "Full-width landscape" } ] },
+      { "type": "text", "id": "caption", "label": "Caption", "default": "Look 01" },
+      { "type": "product", "id": "product", "label": "Product in this look" }
+    ] }
+  ],
+  "presets": [{ "name": "Editorial image grid", "blocks": [ { "type": "look" }, { "type": "look", "settings": { "size": "small" } }, { "type": "look", "settings": { "size": "wide" } } ] }]
+}
+{% endschema %}

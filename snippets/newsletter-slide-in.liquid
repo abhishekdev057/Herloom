@@ -1,0 +1,8 @@
+{%- if settings.newsletter_slide_in and customer == nil -%}
+  <aside class="slide-in" data-slide-in data-delay="{{ settings.newsletter_delay }}" aria-label="{{ 'newsletter.label' | t }}">
+    <button type="button" class="icon-btn" data-slide-in-close aria-label="{{ 'accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    <p class="h3">{{ 'newsletter.heading' | t }}</p>
+    <p class="muted" style="font-size:13px">{{ 'newsletter.text' | t }}</p>
+    {% render 'newsletter-form', form_id: 'SlideInNewsletter' %}
+  </aside>
+{%- endif -%}

@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "banner": { "type": "image-banner", "settings": { "height": "large", "scrim": 25, "eyebrow": "Our story", "heading": "Only women. Only shirts.", "as_h1": true, "eager": true } },
+    "story": { "type": "rich-text", "settings": { "heading": "High-end everyday dressing, without the discomfort.", "heading_size": "h2", "text": "<p>Herloom began with one question: why is the perfect shirt so hard to find? So we make nothing else. Premium natural fabrics, considered cuts, and a fit made for you, one piece at a time.</p><p>Whatever the occasion, there is a Herloom piece for that mood.</p>", "align": "offset" } },
+    "atelier": { "type": "media-split", "settings": { "ratio": "4-5", "media_side": "left", "bg": "white", "eyebrow": "The Atelier", "heading": "Made for you. One piece at a time.", "text": "<p>Every shirt is cut and stitched by hand only after it's ordered.</p>", "link_label": "Inside the Atelier", "link": "/pages/atelier" } }
+  },
+  "order": ["banner", "story", "atelier"]
+}

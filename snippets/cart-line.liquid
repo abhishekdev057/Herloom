@@ -1,0 +1,36 @@
+{%- comment -%} One bag line. Params: item, index {%- endcomment -%}
+<li class="cart-line" data-cart-line="{{ index }}">
+  <a href="{{ item.url }}" class="cart-line__media media ratio-4-5">
+    {%- if item.image -%}
+      {{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 300', sizes: '120px', alt: item.product.title }}
+    {%- endif -%}
+  </a>
+  <div class="cart-line__info">
+    <div class="card__row">
+      <a href="{{ item.url }}" class="card__title">{{ item.product.title | escape }}</a>
+      <span class="card__price">{{ item.final_line_price | money }}</span>
+    </div>
+    {%- unless item.product.has_only_default_variant -%}
+      <p class="meta muted">{{ item.variant.title }}</p>
+    {%- endunless -%}
+    {%- assign props = item.properties | default: empty -%}
+    {%- if props != empty -%}
+      <dl class="cart-line__props">
+        {%- for p in item.properties -%}
+          {%- assign first_char = p.first | slice: 0 -%}
+          {%- if p.last != blank and first_char != '_' -%}
+            <div><dt>{{ p.first }}</dt><dd>{{ p.last }}</dd></div>
+          {%- endif -%}
+        {%- endfor -%}
+      </dl>
+    {%- endif -%}
+    <div class="cart-line__actions">
+      <div class="qty" data-qty>
+        <button type="button" class="icon-btn" data-qty-change="{{ index }}" data-qty-value="{{ item.quantity | minus: 1 }}" aria-label="{{ 'cart.decrease' | t: title: item.product.title | escape }}">{% render 'icon', name: 'minus' %}</button>
+        <span aria-live="polite">{{ item.quantity }}</span>
+        <button type="button" class="icon-btn" data-qty-change="{{ index }}" data-qty-value="{{ item.quantity | plus: 1 }}" aria-label="{{ 'cart.increase' | t: title: item.product.title | escape }}">{% render 'icon', name: 'plus' %}</button>
+      </div>
+      <button type="button" class="link link--reveal muted" data-qty-change="{{ index }}" data-qty-value="0">{{ 'cart.remove' | t }}</button>
+    </div>
+  </div>
+</li>

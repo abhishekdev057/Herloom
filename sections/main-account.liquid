@@ -1,0 +1,63 @@
+<section class="section account">
+  <div class="page-width">
+    <div class="account__head">
+      <div>
+        <p class="meta muted">{{ 'customer.account.title' | t }}</p>
+        <h1 class="h1">{{ 'customer.account.hello' | t: name: customer.first_name | default: '' }}</h1>
+      </div>
+      <a href="{{ routes.account_logout_url }}" class="link link--reveal">{{ 'customer.account.logout' | t }}</a>
+    </div>
+
+    <div class="account__grid">
+      <div class="account__orders">
+        <h2 class="meta">{{ 'customer.orders.title' | t }}</h2>
+        {%- paginate customer.orders by 10 -%}
+          {%- if customer.orders.size > 0 -%}
+            <ul class="account__order-list" role="list">
+              {%- for order in customer.orders -%}
+                <li>
+                  <a href="{{ order.customer_url }}" class="account__order">
+                    <span>{{ order.name }}</span>
+                    <span class="muted">{{ order.created_at | date: '%d %b %Y' }}</span>
+                    <span class="meta">{{ order.fulfillment_status_label }}</span>
+                    <span>{{ order.total_price | money }}</span>
+                    <span class="link">{{ 'customer.orders.track' | t }} <span class="arrow">→</span></span>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- else -%}
+            <p class="muted">{{ 'customer.orders.none' | t }}</p>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+
+      <aside class="account__side">
+        <div>
+          <h2 class="meta">{{ 'customer.measurements.title' | t }}</h2>
+          {%- assign m = customer.metafields.custom.measurements.value -%}
+          {%- if m != blank -%}
+            <dl class="fabric-row__specs">
+              {%- for pair in m -%}<div><dt class="meta muted">{{ pair[0] | replace: '_', ' ' | capitalize }}</dt><dd>{{ pair[1] }} in</dd></div>{%- endfor -%}
+            </dl>
+          {%- else -%}
+            <p class="muted">{{ 'customer.measurements.none' | t }}</p>
+          {%- endif -%}
+        </div>
+        <div>
+          <h2 class="meta">{{ 'customer.wishlist.title' | t }}</h2>
+          <div class="account__wishlist" data-wishlist-grid><p class="muted">{{ 'customer.wishlist.none' | t }}</p></div>
+        </div>
+        <div>
+          <h2 class="meta">{{ 'customer.addresses.title' | t }}</h2>
+          {%- if customer.default_address -%}<p>{{ customer.default_address | format_address }}</p>{%- endif -%}
+          <a href="{{ routes.account_addresses_url }}" class="link link--reveal">{{ 'customer.addresses.manage' | t: count: customer.addresses_count }}</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Account", "settings": [] }
+{% endschema %}

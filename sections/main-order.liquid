@@ -1,0 +1,51 @@
+<section class="section order">
+  <div class="page-width">
+    <a href="{{ routes.account_url }}" class="link link--reveal">← {{ 'customer.account.title' | t }}</a>
+    <div class="account__head">
+      <div>
+        {%- assign placed = order.created_at | date: '%d %B %Y' -%}
+        <p class="meta muted">{{ 'customer.order.placed' | t: date: placed }}</p>
+        <h1 class="h1">{{ 'customer.order.title' | t: name: order.name }}</h1>
+      </div>
+    </div>
+    <div class="order__grid">
+      <div>
+        <h2 class="meta">{{ 'timeline.title' | t }}</h2>
+        {% render 'order-timeline', order: order %}
+      </div>
+      <div>
+        <h2 class="meta">{{ 'customer.order.items' | t }}</h2>
+        <ul class="cart-lines" role="list">
+          {%- for item in order.line_items -%}
+            <li class="cart-line">
+              <div class="cart-line__media media ratio-4-5">{%- if item.image -%}{{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item.title, widths: '150, 300', sizes: '120px' }}{%- endif -%}</div>
+              <div class="cart-line__info">
+                <div class="card__row"><span class="card__title">{{ item.product.title | default: item.title }}</span><span class="card__price">{{ item.final_line_price | money }}</span></div>
+                <p class="meta muted">{{ item.variant_title }} · × {{ item.quantity }}</p>
+                {%- if item.properties.size > 0 -%}
+                  <dl class="cart-line__props">
+                    {%- for p in item.properties -%}{%- assign first_char = p.first | slice: 0 -%}{%- if p.last != blank and first_char != '_' -%}<div><dt>{{ p.first }}</dt><dd>{{ p.last }}</dd></div>{%- endif -%}{%- endfor -%}
+                  </dl>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <dl class="order__totals">
+          <div><dt>{{ 'cart.subtotal' | t }}</dt><dd>{{ order.line_items_subtotal_price | money }}</dd></div>
+          {%- for s in order.shipping_methods -%}<div><dt>{{ s.title }}</dt><dd>{{ s.price | money }}</dd></div>{%- endfor -%}
+          {%- for t in order.tax_lines -%}<div><dt>{{ t.title }}</dt><dd>{{ t.price | money }}</dd></div>{%- endfor -%}
+          <div class="order__total"><dt>{{ 'customer.order.total' | t }}</dt><dd>{{ order.total_price | money_with_currency }}</dd></div>
+        </dl>
+        {%- if order.shipping_address -%}
+          <h2 class="meta" style="margin-top:32px">{{ 'customer.order.shipping' | t }}</h2>
+          <p>{{ order.shipping_address | format_address }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Order & tracking", "settings": [] }
+{% endschema %}

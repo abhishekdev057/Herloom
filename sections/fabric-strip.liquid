@@ -1,0 +1,49 @@
+<section class="section fabric-strip">
+  <div class="page-width">
+    <div class="section-head">
+      <div class="section-head__text">
+        {%- if section.settings.eyebrow != blank -%}<p class="meta muted">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="h2">{{ section.settings.heading }}</h2>
+      </div>
+      {%- if section.settings.link_label != blank -%}<a href="{{ section.settings.link | default: '/pages/fabrics' }}" class="link">{{ section.settings.link_label }} <span class="arrow">→</span></a>{%- endif -%}
+    </div>
+    <div class="fabric-strip__grid">
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.link | default: section.settings.link | default: '/pages/fabrics' }}" class="fabric-card reveal zoom-hover" {{ block.shopify_attributes }}>
+          <div class="media ratio-1-1">{% render 'media-image', image: block.settings.image, sizes: '(min-width: 1024px) 25vw, 50vw', alt: block.settings.name, placeholder: 'collection-1', widths: '300, 500, 700' %}</div>
+          <p><span class="fabric-card__name">{{ block.settings.name }}</span> <span class="muted">— {{ block.settings.word }}</span></p>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Fabric strip",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Fabrics" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Breathable by nature. Elevated by design." },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "The fabric library" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "blocks": [
+    { "type": "fabric", "name": "Fabric", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Macro image" },
+      { "type": "text", "id": "name", "label": "Name", "default": "Linen" },
+      { "type": "text", "id": "word", "label": "One word", "default": "airy" },
+      { "type": "url", "id": "link", "label": "Link (e.g. fabric collection)" }
+    ] }
+  ],
+  "presets": [{
+    "name": "Fabric strip",
+    "blocks": [
+      { "type": "fabric", "settings": { "name": "Linen", "word": "airy" } },
+      { "type": "fabric", "settings": { "name": "Cotton poplin", "word": "crisp" } },
+      { "type": "fabric", "settings": { "name": "Silk", "word": "fluid" } },
+      { "type": "fabric", "settings": { "name": "Satin", "word": "luminous" } }
+    ]
+  }]
+}
+{% endschema %}

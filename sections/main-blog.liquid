@@ -1,0 +1,21 @@
+<section class="section journal">
+  <div class="page-width">
+    <h1 class="h1">{{ blog.title }}</h1>
+    {%- paginate blog.articles by 12 -%}
+      <div class="journal__grid">
+        {%- for article in blog.articles -%}
+          <a href="{{ article.url }}" class="journal__card reveal zoom-hover">
+            <div class="media ratio-3-4">{% render 'media-image', image: article.image, sizes: '(min-width: 1024px) 33vw, 100vw', alt: article.title, placeholder: 'lifestyle-2' %}</div>
+            <span class="meta muted">{{ article.published_at | date: '%d %B %Y' }}</span>
+            <h2 class="h3">{{ article.title }}</h2>
+          </a>
+        {%- endfor -%}
+      </div>
+      {%- if paginate.next -%}<div class="plp__more"><a href="{{ paginate.next.url }}" class="btn btn--outline">{{ 'collection.load_more' | t }}</a></div>{%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Journal", "settings": [] }
+{% endschema %}

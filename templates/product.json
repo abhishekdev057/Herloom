@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_fit": true,
+        "fit_options": "Relaxed, Regular, Tailored",
+        "enable_custom_measurements": true,
+        "enable_monogram": false
+      }
+    },
+    "style": {
+      "type": "product-style-it",
+      "settings": { "eyebrow": "One shirt, three moods", "heading": "Style it for every mood." }
+    },
+    "complete": {
+      "type": "product-recommendations",
+      "settings": { "heading": "Complete the look", "intent": "complementary", "limit": 4 }
+    },
+    "related": {
+      "type": "product-recommendations",
+      "settings": { "heading": "You may also like", "intent": "related", "limit": 4 }
+    }
+  },
+  "order": ["main", "style", "complete", "related"]
+}

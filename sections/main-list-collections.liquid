@@ -1,0 +1,19 @@
+<section class="section">
+  <div class="page-width">
+    <h1 class="h1" style="margin-bottom:48px">{{ 'general.collections' | t }}</h1>
+    <div class="journal__grid">
+      {%- for c in collections -%}
+        {%- if c.handle != 'frontpage' -%}
+          <a href="{{ c.url }}" class="journal__card zoom-hover reveal">
+            <div class="media ratio-3-4">{% render 'media-image', image: c.image, sizes: '(min-width: 1024px) 33vw, 100vw', alt: c.title, placeholder: 'collection-1' %}</div>
+            <h2 class="h3">{{ c.title }}</h2>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Collections list", "settings": [] }
+{% endschema %}

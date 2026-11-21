@@ -1,0 +1,85 @@
+{%- comment -%}
+  Asymmetric editorial: 1 large portrait (with + hotspots) + 2 smaller images + caption.
+  Hotspot blocks: product + x/y position (%). Each opens a mini card with Quick add.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+<section class="section look" data-look>
+  <div class="page-width">
+    <div class="look__grid">
+      <div class="look__main reveal">
+        <div class="media ratio-2-3 look__hotspot-wrap">
+          {% render 'media-image', image: s.image_main, sizes: '(min-width: 1024px) 50vw, 100vw', placeholder: 'lifestyle-1' %}
+          {%- for block in section.blocks -%}
+            {%- assign p = block.settings.product -%}
+            <div class="hotspot" style="--x: {{ block.settings.x }}%; --y: {{ block.settings.y }}%" {{ block.shopify_attributes }}>
+              <button type="button" class="hotspot__btn" aria-expanded="false" aria-controls="Hotspot-{{ block.id }}"
+                aria-label="{{ 'look.view_product' | t: title: p.title | default: 'product' | escape }}" data-hotspot>
+                {% render 'icon', name: 'plus' %}
+              </button>
+              <div class="hotspot__card" id="Hotspot-{{ block.id }}" hidden>
+                {%- if p != blank -%}
+                  <a href="{{ p.url }}" class="hotspot__media media ratio-4-5">
+                    {%- if p.featured_image -%}{{ p.featured_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: p.title, widths: '150, 300', sizes: '120px' }}{%- endif -%}
+                  </a>
+                  <div class="hotspot__info">
+                    <a href="{{ p.url }}" class="card__title">{{ p.title }}</a>
+                    <span class="card__price">{% render 'price', product: p %}</span>
+                    {%- if p.has_only_default_variant -%}
+                      <button type="button" class="link" data-quick-variant="{{ p.selected_or_first_available_variant.id }}">{{ 'product.quick_add' | t }}</button>
+                    {%- else -%}
+                      <a href="{{ p.url }}" class="link">{{ 'product.choose_size' | t }} <span class="arrow">→</span></a>
+                    {%- endif -%}
+                  </div>
+                {%- else -%}
+                  <p class="meta muted">Select a product for this hotspot.</p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="look__side">
+        <div class="look__caption reveal">
+          {%- if s.eyebrow != blank -%}<p class="meta muted">{{ s.eyebrow }}</p>{%- endif -%}
+          <h2 class="h2">{{ s.heading }}</h2>
+          {%- if s.text != blank -%}<div class="lede">{{ s.text }}</div>{%- endif -%}
+          {%- if s.link_label != blank -%}<a href="{{ s.link | default: '#' }}" class="link">{{ s.link_label }} <span class="arrow">→</span></a>{%- endif -%}
+        </div>
+        <div class="look__smalls">
+          <div class="media ratio-3-4 reveal look__small-1">{% render 'media-image', image: s.image_2, sizes: '(min-width: 1024px) 22vw, 50vw', placeholder: 'lifestyle-2' %}</div>
+          <div class="media ratio-3-4 reveal look__small-2">{% render 'media-image', image: s.image_3, sizes: '(min-width: 1024px) 22vw, 50vw', placeholder: 'lifestyle-1' %}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop the look",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "image_picker", "id": "image_main", "label": "Main image (portrait 2:3)" },
+    { "type": "image_picker", "id": "image_2", "label": "Small image 1" },
+    { "type": "image_picker", "id": "image_3", "label": "Small image 2" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop the look" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "From coffee to cocktails." },
+    { "type": "richtext", "id": "text", "label": "Caption", "default": "<p>One linen shirt, worn open over a slip at noon, knotted at the waist by evening.</p>" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "View the lookbook" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "range", "id": "x", "label": "Horizontal position", "min": 5, "max": 95, "step": 1, "unit": "%", "default": 45 },
+        { "type": "range", "id": "y", "label": "Vertical position", "min": 5, "max": 95, "step": 1, "unit": "%", "default": 40 }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Shop the look", "blocks": [ { "type": "hotspot" } ] }]
+}
+{% endschema %}

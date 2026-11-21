@@ -1,0 +1,26 @@
+{%- comment -%}
+  Responsive image with srcset, lazy loading and a placeholder fallback.
+  Params:
+    image        – image object (may be blank)
+    sizes        – sizes attribute (default 100vw)
+    alt          – alt override
+    eager        – true for above-the-fold (LCP) images
+    placeholder  – placeholder_svg name (default 'lifestyle-1')
+    class        – extra class on <img>
+    widths       – comma list of widths
+{%- endcomment -%}
+{%- liquid
+  assign sizes = sizes | default: '100vw'
+  assign widths = widths | default: '375, 550, 750, 1000, 1300, 1600, 2000, 2400'
+  assign placeholder = placeholder | default: 'lifestyle-1'
+-%}
+{%- if image != blank -%}
+  {%- assign img_alt = alt | default: image.alt | default: '' | escape -%}
+  {%- if eager -%}
+    {{ image | image_url: width: 2400 | image_tag: widths: widths, sizes: sizes, alt: img_alt, class: class, loading: 'eager', fetchpriority: 'high' }}
+  {%- else -%}
+    {{ image | image_url: width: 2400 | image_tag: widths: widths, sizes: sizes, alt: img_alt, class: class, loading: 'lazy' }}
+  {%- endif -%}
+{%- else -%}
+  {{ placeholder | placeholder_svg_tag: 'placeholder-svg' }}
+{%- endif -%}

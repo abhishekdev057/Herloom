@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "blocks": {
+        "edit1": { "type": "editorial", "settings": { "position": 8, "layout": "full", "eyebrow": "Shop the look", "heading": "From coffee to cocktails.", "link_label": "View the lookbook", "link": "/pages/lookbook" } }
+      },
+      "block_order": ["edit1"],
+      "settings": { "per_page": 24, "show_banner": true }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,41 @@
+<section class="section cart-page" data-cart-page>
+  <div class="page-width">
+    <h1 class="h1">{{ 'cart.title' | t }}</h1>
+    {%- if cart.item_count > 0 -%}
+      <div class="cart-page__grid">
+        <ul class="cart-lines" role="list">
+          {%- for item in cart.items -%}{% render 'cart-line', item: item, index: forloop.index %}{%- endfor -%}
+        </ul>
+        <aside class="cart-page__summary">
+          <form action="{{ routes.cart_url }}" method="post" id="CartForm">
+            <div class="card__row"><span class="meta">{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money_with_currency }}</span></div>
+            {%- if cart.cart_level_discount_applications.size > 0 -%}
+              {%- for d in cart.cart_level_discount_applications -%}<div class="card__row muted"><span class="meta">{{ d.title }}</span><span>−{{ d.total_allocated_amount | money }}</span></div>{%- endfor -%}
+            {%- endif -%}
+            <p class="meta muted">{{ 'cart.taxes_shipping' | t }}</p>
+            <div class="field">
+              <label for="CartNote">{{ 'cart.note' | t }}</label>
+              <textarea id="CartNote" name="note" class="textarea" rows="3">{{ cart.note }}</textarea>
+            </div>
+            <div class="pdp__lead">
+              <span class="badge badge--mto">{{ 'product.made_to_order' | t }}</span>
+              <p>{{ 'cart.lead_time' | t: days: settings.default_lead_time }}</p>
+            </div>
+            <button type="submit" name="checkout" class="btn btn--full">{{ 'cart.checkout' | t }}</button>
+            {%- if additional_checkout_buttons -%}<div class="cart-page__dynamic">{{ content_for_additional_checkout_buttons }}</div>{%- endif -%}
+          </form>
+        </aside>
+      </div>
+    {%- else -%}
+      <div class="empty">
+        <p class="h3">{{ 'cart.empty_title' | t }}</p>
+        <p class="muted">{{ 'cart.empty_text' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--outline">{{ 'cart.empty_cta' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Bag", "settings": [] }
+{% endschema %}

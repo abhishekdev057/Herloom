@@ -1,0 +1,52 @@
+{%- comment -%}
+  "Style it for different moods" — the same shirt styled 2–3 ways.
+  Source: product.metafields.custom.style_it_looks (list of images; image alt = caption, e.g. "Casual — with denim").
+  Falls back to section blocks (useful as a default for every product).
+{%- endcomment -%}
+{%- assign looks = product.metafields.custom.style_it_looks.value -%}
+{%- if looks != blank or section.blocks.size > 0 -%}
+<section class="section style-it">
+  <div class="page-width">
+    <div class="section-head"><div class="section-head__text">
+      <p class="meta muted">{{ section.settings.eyebrow }}</p>
+      <h2 class="h2">{{ section.settings.heading }}</h2>
+    </div></div>
+    <div class="style-it__grid">
+      {%- if looks != blank -%}
+        {%- for img in looks limit: 3 -%}
+          {%- assign parts = img.alt | split: '—' -%}
+          <figure class="reveal">
+            <div class="media ratio-2-3">{% render 'media-image', image: img, sizes: '(min-width: 1024px) 33vw, 80vw' %}</div>
+            <figcaption><span class="meta">{{ parts[0] | strip }}</span>{% if parts[1] %}<span class="muted">{{ parts[1] | strip }}</span>{% endif %}</figcaption>
+          </figure>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          <figure class="reveal" {{ block.shopify_attributes }}>
+            <div class="media ratio-2-3">{% render 'media-image', image: block.settings.image, sizes: '(min-width: 1024px) 33vw, 80vw', placeholder: 'lifestyle-2' %}</div>
+            <figcaption><span class="meta">{{ block.settings.mood }}</span><span class="muted">{{ block.settings.caption }}</span></figcaption>
+          </figure>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Style it for moods",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "One shirt, three moods" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Style it for every mood." }
+  ],
+  "blocks": [
+    { "type": "look", "name": "Fallback look", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "mood", "label": "Mood", "default": "Casual" },
+      { "type": "text", "id": "caption", "label": "Caption", "default": "Sleeves rolled, with denim." }
+    ] }
+  ]
+}
+{% endschema %}

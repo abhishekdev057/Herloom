@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "banner": { "type": "image-banner", "settings": { "height": "full", "scrim": 25, "eyebrow": "Collection 01", "heading": "The Summer Edit", "as_h1": true, "eager": true } },
+    "intro": { "type": "rich-text", "settings": { "heading": "Linen at noon. Silk by night.", "heading_size": "h1", "text": "<p>Five moods, one wardrobe of shirts. Photographed in natural light.</p>", "align": "center" } },
+    "looks1": {
+      "type": "editorial-grid",
+      "blocks": {
+        "l1": { "type": "look", "settings": { "size": "tall", "caption": "Look 01 — Casual" } },
+        "l2": { "type": "look", "settings": { "size": "small", "caption": "Look 02 — Casual" } },
+        "l3": { "type": "look", "settings": { "size": "wide", "caption": "Look 03 — Resort" } },
+        "l4": { "type": "look", "settings": { "size": "tall", "caption": "Look 04 — Smart Casual" } },
+        "l5": { "type": "look", "settings": { "size": "small", "caption": "Look 05 — Smart Casual" } }
+      },
+      "block_order": ["l1", "l2", "l3", "l4", "l5"],
+      "settings": { "eyebrow": "Lookbook", "heading": "" }
+    },
+    "look": {
+      "type": "shop-the-look",
+      "blocks": { "h1": { "type": "hotspot", "settings": { "x": 50, "y": 40 } } },
+      "block_order": ["h1"],
+      "settings": { "eyebrow": "Shop the look", "heading": "For dinners that run late.", "text": "<p>Our silk evening shirt, half-tucked, sleeves pushed up.</p>", "link_label": "Shop Party & Evening", "link": "shopify://collections/party-evening" }
+    },
+    "looks2": {
+      "type": "editorial-grid",
+      "blocks": {
+        "l6": { "type": "look", "settings": { "size": "tall", "caption": "Look 06 — Evening" } },
+        "l7": { "type": "look", "settings": { "size": "small", "caption": "Look 07 — Statement" } },
+        "l8": { "type": "look", "settings": { "size": "wide", "caption": "Look 08 — Statement" } }
+      },
+      "block_order": ["l6", "l7", "l8"],
+      "settings": { "eyebrow": "", "heading": "" }
+    },
+    "shop": { "type": "featured-products", "settings": { "eyebrow": "In this campaign", "heading": "Shop the edit", "collection": "new-in", "limit": 8, "columns": 4, "link_label": "Shop all" } }
+  },
+  "order": ["banner", "intro", "looks1", "look", "looks2", "shop"]
+}

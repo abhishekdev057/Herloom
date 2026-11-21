@@ -1,0 +1,15 @@
+{%- liquid
+  assign target = variant | default: product.selected_or_first_available_variant
+  if variant == blank and product.price_varies
+    assign from = true
+  endif
+-%}
+<span class="price" data-price>
+  {%- if target.compare_at_price > target.price -%}
+    <span class="visually-hidden">{{ 'product.sale_price' | t }}</span>
+    <span>{{ target.price | money }}</span>
+    <s><span class="visually-hidden">{{ 'product.regular_price' | t }}</span>{{ target.compare_at_price | money }}</s>
+  {%- else -%}
+    <span>{% if from %}{{ 'product.from' | t }} {% endif %}{{ target.price | money }}</span>
+  {%- endif -%}
+</span>

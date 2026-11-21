@@ -1,0 +1,13 @@
+{%- comment -%} Slide-out bag. Re-rendered via the Section Rendering API (section id: cart-drawer-content). {%- endcomment -%}
+<div class="drawer" id="CartDrawer" data-drawer="cart" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle" aria-hidden="true">
+  <div class="drawer__overlay" data-drawer-close></div>
+  <div class="drawer__panel" tabindex="-1">
+    <div class="drawer__head">
+      <h2 id="CartDrawerTitle" class="meta">{{ 'cart.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)</h2>
+      <button class="icon-btn" type="button" data-drawer-close aria-label="{{ 'accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </div>
+    <div data-cart-drawer-content>
+      {% render 'cart-drawer-content' %}
+    </div>
+  </div>
+</div>

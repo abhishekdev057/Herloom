@@ -1,0 +1,12 @@
+<section class="section">
+  <div class="page-width empty">
+    <p class="meta muted">404</p>
+    <h1 class="h1">{{ 'general.404_title' | t }}</h1>
+    <p class="muted">{{ 'general.404_text' | t }}</p>
+    <a href="{{ routes.all_products_collection_url }}" class="btn">{{ 'cart.empty_cta' | t }}</a>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "404", "settings": [] }
+{% endschema %}

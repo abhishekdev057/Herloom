@@ -1,0 +1,15 @@
+<article class="article">
+  {%- if article.image -%}
+    <div class="media ratio-21-9 article__hero">{% render 'media-image', image: article.image, sizes: '100vw', eager: true, alt: article.title %}</div>
+  {%- endif -%}
+  <div class="page-width section article__inner">
+    <p class="meta muted">{{ article.published_at | date: '%d %B %Y' }}</p>
+    <h1 class="h1">{{ article.title }}</h1>
+    <div class="rte lede">{{ article.content }}</div>
+    <a href="{{ blog.url }}" class="link">← {{ 'general.back_to' | t: title: blog.title }}</a>
+  </div>
+</article>
+
+{% schema %}
+{ "name": "Journal article", "settings": [] }
+{% endschema %}

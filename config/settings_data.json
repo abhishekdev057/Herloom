@@ -1,0 +1,23 @@
+{
+  "current": {
+    "color_ivory": "#F7F4EF",
+    "color_white": "#FFFFFF",
+    "color_ink": "#151413",
+    "color_stone": "#8C857C",
+    "color_sand": "#E6DFD4",
+    "color_clay": "#9A5B45",
+    "font_source": "google",
+    "button_radius": 0,
+    "default_made_to_order": true,
+    "default_lead_time": 7,
+    "newsletter_slide_in": false,
+    "newsletter_delay": 30,
+    "social_instagram": "https://www.instagram.com/herloom.in"
+  },
+  "presets": {
+    "Default": {
+      "color_ivory": "#F7F4EF",
+      "color_ink": "#151413"
+    }
+  }
+}

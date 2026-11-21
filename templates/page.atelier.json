@@ -1,0 +1,40 @@
+{
+  "sections": {
+    "banner": { "type": "image-banner", "settings": { "height": "full", "scrim": 30, "eyebrow": "The Atelier", "heading": "One piece at a time.", "as_h1": true, "eager": true } },
+    "philosophy": { "type": "rich-text", "settings": { "eyebrow": "Our philosophy", "heading": "Made for you, not for a warehouse.", "heading_size": "h1", "text": "<p>We don't make shirts and hope someone buys them. We wait for you. Then one maker cuts, stitches and finishes your shirt by hand.</p>", "align": "offset" } },
+    "process": {
+      "type": "process-steps",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "title": "Fabric", "text": "Your length of linen, poplin or silk is set aside only when you order." } },
+        "s2": { "type": "step", "settings": { "title": "Pattern", "text": "We draft from your size, or your own measurements." } },
+        "s3": { "type": "step", "settings": { "title": "Cut", "text": "Cut by hand, one shirt at a time. No stacks, no waste." } },
+        "s4": { "type": "step", "settings": { "title": "Stitch", "text": "One maker sews your shirt from collar to hem." } },
+        "s5": { "type": "step", "settings": { "title": "Finish", "text": "Pressed, checked, wrapped, and signed with a handwritten card." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "s5"],
+      "settings": { "eyebrow": "The process", "heading": "From bolt to you." }
+    },
+    "makers": {
+      "type": "makers",
+      "blocks": {
+        "k1": { "type": "maker", "settings": { "name": "[Maker name]", "role": "Master tailor" } },
+        "k2": { "type": "maker", "settings": { "name": "[Maker name]", "role": "Cutter" } },
+        "k3": { "type": "maker", "settings": { "name": "[Maker name]", "role": "Finishing" } },
+        "k4": { "type": "maker", "settings": { "name": "[Maker name]", "role": "Quality check" } }
+      },
+      "block_order": ["k1", "k2", "k3", "k4"],
+      "settings": { "eyebrow": "The makers", "heading": "The hands behind your shirt." }
+    },
+    "why": {
+      "type": "media-split",
+      "blocks": {
+        "w1": { "type": "point", "settings": { "title": "Less waste", "text": "Nothing is made that isn't wanted." } },
+        "w2": { "type": "point", "settings": { "title": "A better fit", "text": "Cut to your size or your body." } },
+        "w3": { "type": "point", "settings": { "title": "Never mass-produced", "text": "Each piece passes through one pair of hands." } }
+      },
+      "block_order": ["w1", "w2", "w3"],
+      "settings": { "ratio": "4-5", "media_side": "right", "bg": "white", "eyebrow": "Why made to order", "heading": "Slower, on purpose.", "text": "<p>Waiting a week is the price of a shirt that was made for you alone.</p>", "link_label": "Shop the collection", "link": "shopify://collections/all" }
+    }
+  },
+  "order": ["banner", "philosophy", "process", "makers", "why"]
+}

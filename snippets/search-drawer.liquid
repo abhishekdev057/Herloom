@@ -1,0 +1,26 @@
+<div class="drawer drawer--top" id="SearchDrawer" data-drawer="search" role="dialog" aria-modal="true" aria-label="{{ 'search.title' | t }}" aria-hidden="true">
+  <div class="drawer__overlay" data-drawer-close></div>
+  <div class="drawer__panel search-panel" tabindex="-1">
+    <div class="page-width search-panel__inner">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+        <input type="hidden" name="type" value="product">
+        <label for="SearchInput" class="visually-hidden">{{ 'search.placeholder' | t }}</label>
+        <input id="SearchInput" class="search-form__input h3" type="search" name="q" autocomplete="off" placeholder="{{ 'search.placeholder' | t }}" data-predictive-input>
+        <button type="button" class="icon-btn" data-drawer-close aria-label="{{ 'accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+      </form>
+      <div class="search-panel__suggest">
+        <p class="meta muted">{{ 'search.popular' | t }}</p>
+        <ul class="search-panel__chips" role="list">
+          {%- for link in linklists[settings.search_menu].links -%}
+            <li><a href="{{ link.url }}" class="link link--reveal">{{ link.title }}</a></li>
+          {%- else -%}
+            <li><a href="/collections/linen" class="link link--reveal">Linen</a></li>
+            <li><a href="/collections/resort" class="link link--reveal">Resort</a></li>
+            <li><a href="/collections/silk" class="link link--reveal">Silk</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+      <div class="search-panel__results" data-predictive-results aria-live="polite"></div>
+    </div>
+  </div>
+</div>

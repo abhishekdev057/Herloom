@@ -1,0 +1,232 @@
+{%- comment -%}
+  PDP — made-to-order focused.
+  Metafields used (namespace "custom"): moods (list.single_line_text_field), fabric, fabric_feel,
+  fit_type, lead_time_days (integer), made_to_order (boolean), care (multi_line), model_info,
+  maker_note, style_it_looks (list.file_reference) — see setup/metafields.graphql.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign current = product.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section.id
+  assign mf = product.metafields.custom
+  assign lead = mf.lead_time_days.value | default: settings.default_lead_time
+  assign lead_max = lead | plus: 3
+  assign mto = mf.made_to_order.value
+  if mf.made_to_order == blank
+    assign mto = settings.default_made_to_order
+  endif
+  assign has_fit_option = false
+  for option in product.options
+    assign o = option | downcase
+    if o == 'fit'
+      assign has_fit_option = true
+    endif
+  endfor
+-%}
+<section class="pdp" data-pdp data-section-id="{{ section.id }}" data-product-url="{{ product.url }}">
+  <div class="pdp__inner">
+    {%- comment -%} Gallery {%- endcomment -%}
+    <div class="pdp__gallery" data-gallery>
+      <ul class="pdp__media-list" role="list" data-gallery-track aria-label="{{ 'product.gallery' | t }}">
+        {%- for media in product.media -%}
+          <li class="pdp__media-item" data-media-id="{{ media.id }}">
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                <div class="media ratio-4-5">
+                  {%- assign m_alt = media.alt | default: product.title | escape -%}
+                  {%- if forloop.first -%}
+                    {{ media | image_url: width: 2000 | image_tag: widths: '550, 750, 1000, 1300, 1600, 2000', sizes: '(min-width: 1024px) 58vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: m_alt }}
+                  {%- else -%}
+                    {{ media | image_url: width: 2000 | image_tag: widths: '550, 750, 1000, 1300, 1600, 2000', sizes: '(min-width: 1024px) 58vw, 100vw', loading: 'lazy', alt: m_alt }}
+                  {%- endif -%}
+                </div>
+              {%- when 'video' -%}
+                <div class="media ratio-4-5">{{ media | video_tag: autoplay: false, loop: true, muted: true, controls: true, playsinline: true, image_size: '1200x' }}</div>
+              {%- when 'external_video' -%}
+                <div class="media ratio-4-5">{{ media | external_video_tag }}</div>
+              {%- else -%}
+                <div class="media ratio-4-5">{{ media | media_tag }}</div>
+            {%- endcase -%}
+          </li>
+        {%- else -%}
+          <li class="pdp__media-item"><div class="media ratio-4-5">{{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}</div></li>
+        {%- endfor -%}
+      </ul>
+      {%- if product.media.size > 1 -%}
+        <p class="pdp__counter meta" aria-hidden="true"><span data-gallery-index>1</span> / {{ product.media.size }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Info panel {%- endcomment -%}
+    <div class="pdp__info">
+      <div class="pdp__sticky">
+        <nav class="breadcrumbs meta" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a><span aria-hidden="true">/</span>
+          {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a>{%- else -%}<a href="{{ routes.all_products_collection_url }}">{{ 'general.shop' | t }}</a>{%- endif -%}
+        </nav>
+
+        <div class="pdp__title-row">
+          <h1 class="h2 pdp__title">{{ product.title }}</h1>
+          <div class="pdp__price" data-pdp-price>{% render 'price', product: product, variant: current %}</div>
+        </div>
+        {%- if cart.taxes_included -%}<p class="meta muted">{{ 'product.tax_included' | t }}</p>{%- endif -%}
+
+        {%- assign moods = mf.moods.value -%}
+        {%- if moods != blank -%}
+          <p class="mood-tags meta">
+            {%- for mood in moods -%}<a href="{{ routes.collections_url }}/{{ mood | handle }}">{{ mood }}</a>{%- unless forloop.last -%}<span aria-hidden="true">·</span>{%- endunless -%}{%- endfor -%}
+          </p>
+        {%- endif -%}
+
+        {%- if s.show_short_description and product.description != blank -%}
+          <p class="pdp__short">{{ product.description | strip_html | truncatewords: 28 }}</p>
+        {%- endif -%}
+
+        {%- form 'product', product, id: form_id, class: 'pdp__form', novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ current.id }}" data-variant-id>
+
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              {%- assign oname = option.name | downcase -%}
+              <fieldset class="pdp__option" data-option-index="{{ forloop.index0 }}">
+                <legend class="pdp__option-head">
+                  <span class="meta">{{ option.name }}{% if oname == 'color' or oname == 'colour' %}: <span class="muted" data-option-selected>{{ option.selected_value }}</span>{% endif %}</span>
+                  {%- if oname == 'size' -%}
+                    <button type="button" class="link link--reveal meta" data-drawer-open="size-guide">{{ 'product.size_guide' | t }}</button>
+                  {%- endif -%}
+                </legend>
+                <div class="pdp__values{% if oname == 'color' or oname == 'colour' %} pdp__values--swatch{% endif %}">
+                  {%- for value in option.values -%}
+                    {%- assign vid = form_id | append: '-' | append: forloop.parentloop.index0 | append: '-' | append: forloop.index0 -%}
+                    <input class="visually-hidden" type="radio" id="{{ vid }}" name="option-{{ forloop.parentloop.index0 }}" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %} data-option-input>
+                    {%- if oname == 'color' or oname == 'colour' -%}
+                      {%- liquid
+                        assign swatch_bg = value | handle
+                        if value.swatch.color
+                          assign swatch_bg = value.swatch.color
+                        elsif value.swatch.image
+                          assign swatch_bg = value.swatch.image | image_url: width: 60 | prepend: 'url(' | append: ')'
+                        endif
+                      -%}
+                      <label for="{{ vid }}" class="pdp__swatch" title="{{ value | escape }}"><span class="swatch" style="--swatch: {{ swatch_bg }}"></span><span class="visually-hidden">{{ value }}</span></label>
+                    {%- else -%}
+                      <label for="{{ vid }}" class="pdp__chip">{{ value }}</label>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </fieldset>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          {%- if s.show_fit and has_fit_option == false -%}
+            <fieldset class="pdp__option">
+              <legend class="pdp__option-head"><span class="meta">{{ 'product.fit' | t }}</span></legend>
+              <div class="pdp__values">
+                {%- assign fits = s.fit_options | split: ',' -%}
+                {%- assign default_fit = mf.fit_type.value | default: fits[1] | strip -%}
+                {%- for fit in fits -%}
+                  {%- assign f = fit | strip -%}
+                  <input class="visually-hidden" type="radio" id="{{ form_id }}-fit-{{ forloop.index }}" name="properties[Fit]" value="{{ f }}" {% if f == default_fit %}checked{% endif %}>
+                  <label for="{{ form_id }}-fit-{{ forloop.index }}" class="pdp__chip">{{ f }}</label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endif -%}
+
+          {%- if s.enable_custom_measurements -%}
+            {% render 'measurement-fields', form_id: form_id %}
+          {%- endif -%}
+
+          {%- if s.enable_monogram -%}
+            <div class="field pdp__monogram">
+              <label for="{{ form_id }}-mono">{{ 'product.monogram' | t }}</label>
+              <input class="input" id="{{ form_id }}-mono" type="text" maxlength="3" name="properties[Monogram]" placeholder="ABC" autocomplete="off">
+            </div>
+          {%- endif -%}
+
+          {%- if mto -%}
+            <div class="pdp__lead">
+              <span class="badge badge--mto">{{ 'product.made_to_order' | t }}</span>
+              <p>{{ 'product.lead_time' | t: min: lead, max: lead_max }}</p>
+              <details class="tip">
+                <summary aria-label="{{ 'product.lead_info' | t }}">{% render 'icon', name: 'info' %}</summary>
+                <div class="tip__body">{{ 'product.lead_tooltip' | t }}</div>
+              </details>
+            </div>
+            <input type="hidden" name="properties[_lead_time_days]" value="{{ lead }}">
+          {%- endif -%}
+
+          <div class="pdp__actions">
+            <button type="submit" name="add" class="btn btn--full pdp__add" data-add-button {% unless current.available %}disabled{% endunless %}>
+              <span data-add-label>{% if current.available %}{{ 'product.add_to_bag' | t }}{% else %}{{ 'product.sold_out' | t }}{% endif %}</span>
+            </button>
+            <button type="button" class="icon-btn pdp__wish card__wish" aria-pressed="false" aria-label="{{ 'wishlist.toggle' | t: title: product.title | escape }}" data-wishlist-toggle="{{ product.handle }}">{% render 'icon', name: 'heart' %}</button>
+          </div>
+          <p class="form-error" role="alert" data-form-error hidden></p>
+        {%- endform -%}
+
+        <div class="accordion pdp__accordion">
+          <details open>
+            <summary>{{ 'product.tab_fabric' | t }}<span class="plus" aria-hidden="true"></span></summary>
+            <div class="accordion__body rte">
+              {%- if mf.fabric != blank -%}<p><strong>{{ mf.fabric.value }}</strong>{% if mf.fabric_feel != blank %} — {{ mf.fabric_feel.value }}{% endif %}</p>{%- endif -%}
+              {{ product.description }}
+            </div>
+          </details>
+          <details>
+            <summary>{{ 'product.tab_fit' | t }}<span class="plus" aria-hidden="true"></span></summary>
+            <div class="accordion__body rte">
+              {%- if mf.fit_type != blank -%}<p>{{ 'product.fit' | t }}: {{ mf.fit_type.value }}</p>{%- endif -%}
+              {%- if mf.model_info != blank -%}<p>{{ mf.model_info.value }}</p>{%- else -%}<p>{{ s.default_model_info }}</p>{%- endif -%}
+              <p><button type="button" class="link link--reveal" data-drawer-open="size-guide">{{ 'product.size_guide' | t }}</button></p>
+            </div>
+          </details>
+          <details>
+            <summary>{{ 'product.tab_care' | t }}<span class="plus" aria-hidden="true"></span></summary>
+            <div class="accordion__body rte">{%- if mf.care != blank -%}{{ mf.care.value | newline_to_br }}{%- else -%}{{ s.default_care }}{%- endif -%}</div>
+          </details>
+          <details>
+            <summary>{{ 'product.tab_hand' | t }}<span class="plus" aria-hidden="true"></span></summary>
+            <div class="accordion__body rte">{%- if mf.maker_note != blank -%}<p>{{ mf.maker_note.value }}</p>{%- else -%}{{ s.default_hand }}{%- endif -%}</div>
+          </details>
+          <details>
+            <summary>{{ 'product.tab_shipping' | t }}<span class="plus" aria-hidden="true"></span></summary>
+            <div class="accordion__body rte">{{ s.shipping_text }}</div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Mobile sticky bar {%- endcomment -%}
+  <div class="pdp__bar" data-pdp-bar aria-hidden="true">
+    <div class="pdp__bar-info"><span class="card__title">{{ product.title }}</span><span class="card__price" data-pdp-bar-price>{{ current.price | money }}</span></div>
+    <button type="submit" form="{{ form_id }}" class="btn" data-add-button tabindex="-1" {% unless current.available %}disabled{% endunless %}>{{ 'product.add_to_bag' | t }}</button>
+  </div>
+
+  {% render 'size-guide-drawer' %}
+  <script type="application/json" data-product-json>
+    {
+      "variants": [{%- for v in product.variants -%}{ "id": {{ v.id }}, "available": {{ v.available | json }}, "options": {{ v.options | json }}, "price": {{ v.price | money | json }}, "compare": {% if v.compare_at_price > v.price %}{{ v.compare_at_price | money | json }}{% else %}null{% endif %}, "media": {{ v.featured_media.id | default: 'null' }} }{% unless forloop.last %},{% endunless %}{%- endfor -%}]
+    }
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Product information",
+  "settings": [
+    { "type": "checkbox", "id": "show_short_description", "label": "Show short description", "default": false },
+    { "type": "header", "content": "Made-to-order options" },
+    { "type": "checkbox", "id": "show_fit", "label": "Show fit option (Relaxed / Regular / Tailored)", "default": true },
+    { "type": "text", "id": "fit_options", "label": "Fit options (comma separated)", "default": "Relaxed, Regular, Tailored" },
+    { "type": "checkbox", "id": "enable_custom_measurements", "label": "Offer “Make it to my measurements”", "default": true },
+    { "type": "checkbox", "id": "enable_monogram", "label": "Offer monogram (phase 2)", "default": false },
+    { "type": "header", "content": "Default accordion content" },
+    { "type": "text", "id": "default_model_info", "label": "Model info fallback", "default": "Model is 5'8\" and wears size S." },
+    { "type": "richtext", "id": "default_care", "label": "Care fallback", "default": "<p>Cold, gentle wash. Line dry in shade. Warm iron on the reverse.</p>" },
+    { "type": "richtext", "id": "default_hand", "label": "Made by hand fallback", "default": "<p>Your shirt is cut and stitched by one maker in our atelier, only after you order. Every seam is finished by hand.</p>" },
+    { "type": "richtext", "id": "shipping_text", "label": "Shipping, returns & alterations", "default": "<p>Free shipping across India. Because every piece is made for you, we offer a free alteration instead of returns on standard sizes, and remake custom-measurement pieces if the fit isn’t right. <a href=\"/policies/refund-policy\">Full policy</a></p>" }
+  ]
+}
+{% endschema %}

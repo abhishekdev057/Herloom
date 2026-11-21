@@ -1,0 +1,10 @@
+<div class="field"><label for="AddrFirst-{{ id }}">{{ 'customer.first_name' | t }}</label><input class="input" id="AddrFirst-{{ id }}" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name"></div>
+<div class="field"><label for="AddrLast-{{ id }}">{{ 'customer.last_name' | t }}</label><input class="input" id="AddrLast-{{ id }}" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name"></div>
+<div class="field"><label for="Addr1-{{ id }}">{{ 'customer.addresses.address1' | t }}</label><input class="input" id="Addr1-{{ id }}" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1"></div>
+<div class="field"><label for="Addr2-{{ id }}">{{ 'customer.addresses.address2' | t }}</label><input class="input" id="Addr2-{{ id }}" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2"></div>
+<div class="field"><label for="AddrCity-{{ id }}">{{ 'customer.addresses.city' | t }}</label><input class="input" id="AddrCity-{{ id }}" name="address[city]" value="{{ form.city }}" autocomplete="address-level2"></div>
+<div class="field"><label for="AddrCountry-{{ id }}">{{ 'customer.addresses.country' | t }}</label><select class="select" id="AddrCountry-{{ id }}" name="address[country]" data-default="{{ form.country }}">{{ all_country_option_tags }}</select></div>
+<div class="field"><label for="AddrProvince-{{ id }}">{{ 'customer.addresses.province' | t }}</label><input class="input" id="AddrProvince-{{ id }}" name="address[province]" value="{{ form.province }}" autocomplete="address-level1"></div>
+<div class="field"><label for="AddrZip-{{ id }}">{{ 'customer.addresses.zip' | t }}</label><input class="input" id="AddrZip-{{ id }}" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code"></div>
+<div class="field"><label for="AddrPhone-{{ id }}">{{ 'customer.addresses.phone' | t }}</label><input class="input" id="AddrPhone-{{ id }}" type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel"></div>
+<label class="filter-value">{{ form.set_as_default_checkbox }} <span>{{ 'customer.addresses.set_default' | t }}</span></label>

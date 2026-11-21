@@ -1,0 +1,24 @@
+{%- comment -%} Rendered by /search/suggest?section_id=predictive-search {%- endcomment -%}
+{%- if predictive_search.performed -%}
+  {%- if predictive_search.resources.products.size > 0 -%}
+    <p class="meta muted">{{ 'search.products' | t }}</p>
+    <ul class="predictive__products" role="list">
+      {%- for product in predictive_search.resources.products limit: 4 -%}
+        <li>
+          <a href="{{ product.url }}" class="predictive__item">
+            <div class="media ratio-4-5">{%- if product.featured_image -%}{{ product.featured_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title, widths: '150, 300', sizes: '25vw' }}{%- endif -%}</div>
+            <span class="card__title">{{ product.title }}</span>
+            <span class="card__price">{{ product.price | money }}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+    <a href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&type=product" class="link">{{ 'search.view_all' | t: terms: predictive_search.terms }} <span class="arrow">→</span></a>
+  {%- else -%}
+    <p class="muted">{{ 'search.no_results' | t: terms: predictive_search.terms }}</p>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{ "name": "Predictive search (internal)", "settings": [] }
+{% endschema %}

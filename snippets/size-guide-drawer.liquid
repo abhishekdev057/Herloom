@@ -1,0 +1,25 @@
+{%- comment -%} Size guide + how to measure. Content comes from the page set in theme settings, else a default table. {%- endcomment -%}
+<div class="drawer drawer--sheet" id="SizeGuideDrawer" data-drawer="size-guide" role="dialog" aria-modal="true" aria-labelledby="SizeGuideTitle" aria-hidden="true">
+  <div class="drawer__overlay" data-drawer-close></div>
+  <div class="drawer__panel" tabindex="-1">
+    <div class="drawer__head">
+      <h2 id="SizeGuideTitle" class="meta">{{ 'product.size_guide' | t }}</h2>
+      <button class="icon-btn" type="button" data-drawer-close aria-label="{{ 'accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </div>
+    <div class="drawer__body rte">
+      {%- assign guide = pages[settings.size_guide_page] -%}
+      {%- if guide != blank and guide.content != blank -%}
+        {{ guide.content }}
+      {%- else -%}
+        {% render 'size-table' %}
+        <h3>How to measure</h3>
+        <p><strong>Bust</strong> — around the fullest part, tape level under the arms.</p>
+        <p><strong>Waist</strong> — around the narrowest part of your natural waist.</p>
+        <p><strong>Shoulder</strong> — from one shoulder point to the other, across the back.</p>
+        <p><strong>Sleeve</strong> — from shoulder point to wrist bone, arm slightly bent.</p>
+        <p><strong>Shirt length</strong> — from the highest shoulder point down to where you'd like the hem.</p>
+        <p class="muted">Between sizes? Choose “Make it to my measurements” — every Herloom shirt is cut for you.</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

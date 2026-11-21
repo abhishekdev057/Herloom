@@ -1,0 +1,34 @@
+# Herloom — smart collections, driven by product TAGS so new products sort themselves.
+# Tag convention:  mood:casual · mood:smart-casual · mood:resort · mood:party-evening · mood:statement
+#                  fabric:linen · fabric:cotton-poplin · fabric:silk · fabric:satin · fabric:cotton-silk
+#                  style:classic · style:oversized · style:cropped · style:tie-front · style:camp-collar · style:sleeveless
+#                  new-in · signature · bestseller
+# Pattern for each (repeat with the handle/title/tag below):
+
+mutation CreateSmartCollection($input: CollectionInput!) {
+  collectionCreate(input: $input) { collection { id handle } userErrors { field message } }
+}
+
+# Variables, one call per row:
+# { "input": { "title": "Casual",          "handle": "casual",          "descriptionHtml": "<p>For coffee runs, errands and slow weekends.</p>",            "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "mood:casual" }] } } }
+# { "input": { "title": "Smart Casual",    "handle": "smart-casual",    "descriptionHtml": "<p>Polished enough for the boardroom, easy enough for lunch.</p>", "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "mood:smart-casual" }] } } }
+# { "input": { "title": "Resort",          "handle": "resort",          "descriptionHtml": "<p>For slow mornings and sunlit getaways.</p>",                  "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "mood:resort" }] } } }
+# { "input": { "title": "Party & Evening", "handle": "party-evening",   "descriptionHtml": "<p>Fluid fabrics for dinners and late nights.</p>",              "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "mood:party-evening" }] } } }
+# { "input": { "title": "Statement",       "handle": "statement",       "descriptionHtml": "<p>Elevated pieces for dressing up.</p>",                        "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "mood:statement" }] } } }
+# { "input": { "title": "Linen",           "handle": "linen",           "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "fabric:linen" }] } } }
+# { "input": { "title": "Cotton Poplin",   "handle": "cotton-poplin",   "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "fabric:cotton-poplin" }] } } }
+# { "input": { "title": "Silk",            "handle": "silk",            "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "fabric:silk" }] } } }
+# { "input": { "title": "Satin",           "handle": "satin",           "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "fabric:satin" }] } } }
+# { "input": { "title": "Cotton-Silk",     "handle": "cotton-silk",     "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "fabric:cotton-silk" }] } } }
+# { "input": { "title": "Classic Shirts",  "handle": "classic-shirts",  "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "style:classic" }] } } }
+# { "input": { "title": "Oversized",       "handle": "oversized",       "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "style:oversized" }] } } }
+# { "input": { "title": "Cropped",         "handle": "cropped",         "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "style:cropped" }] } } }
+# { "input": { "title": "Tie-front",       "handle": "tie-front",       "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "style:tie-front" }] } } }
+# { "input": { "title": "Camp Collar",     "handle": "camp-collar",     "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "style:camp-collar" }] } } }
+# { "input": { "title": "Sleeveless",      "handle": "sleeveless",      "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "style:sleeveless" }] } } }
+# { "input": { "title": "New In",          "handle": "new-in",          "descriptionHtml": "<p>The newest pieces from the atelier.</p>", "sortOrder": "CREATED_DESC", "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "new-in" }] } } }
+# { "input": { "title": "Signature Pieces","handle": "signature",       "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "signature" }] } } }
+# { "input": { "title": "Bestsellers",     "handle": "bestsellers",     "sortOrder": "BEST_SELLING", "ruleSet": { "appliedDisjunctively": false, "rules": [{ "column": "TAG", "relation": "EQUALS", "condition": "bestseller" }] } } }
+#
+# After creating, publish each to the Online Store sales channel (publishablePublish) — or tick
+# "Online Store" in Admin → Collections.

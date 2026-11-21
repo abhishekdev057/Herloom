@@ -1,0 +1,34 @@
+{%- comment -%}
+  Custom measurement fields, saved as line-item properties on the order.
+  Prefills from customer.metafields.custom.measurements (JSON) when logged in,
+  and from localStorage for guests (see theme.js → initMeasurements).
+  Params: form_id
+{%- endcomment -%}
+{%- assign saved = customer.metafields.custom.measurements.value -%}
+<div class="measure" data-measurements>
+  <label class="toggle">
+    <input type="checkbox" data-measure-toggle aria-controls="MeasureFields-{{ form_id }}" aria-expanded="false">
+    <span class="toggle__track" aria-hidden="true"></span>
+    <span>{{ 'product.custom_toggle' | t }}</span>
+  </label>
+  <div class="measure__fields" id="MeasureFields-{{ form_id }}" hidden>
+    <p class="muted" style="font-size:13px">{{ 'product.custom_help' | t }} <button type="button" class="link link--reveal" data-drawer-open="size-guide">{{ 'product.how_to_measure' | t }}</button></p>
+    <div class="measure__grid">
+      {%- assign keys = 'Bust,Waist,Shoulder,Sleeve length,Shirt length' | split: ',' -%}
+      {%- for key in keys -%}
+        {%- assign k = key | handle | replace: '-', '_' -%}
+        <div class="field">
+          <label for="m-{{ k }}-{{ form_id }}">{{ key }} (in)</label>
+          <input class="input" id="m-{{ k }}-{{ form_id }}" type="number" inputmode="decimal" step="0.25" min="8" max="70"
+            name="properties[{{ key }}]" form="{{ form_id }}" data-measure-key="{{ k }}" value="{{ saved[k] }}" disabled>
+        </div>
+      {%- endfor -%}
+    </div>
+    <input type="hidden" name="properties[_custom_fit]" value="yes" form="{{ form_id }}" data-measure-flag disabled>
+    {%- if customer -%}
+      <p class="meta muted">{{ 'product.measurements_saved_account' | t }}</p>
+    {%- else -%}
+      <p class="meta muted">{{ 'product.measurements_saved_device' | t }} <a class="link link--reveal" href="{{ routes.account_login_url }}">{{ 'customer.login.title' | t }}</a></p>
+    {%- endif -%}
+  </div>
+</div>

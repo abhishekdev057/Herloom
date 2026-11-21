@@ -1,0 +1,15 @@
+<style>
+  :root {
+    --ivory: {{ settings.color_ivory | default: '#F7F4EF' }};
+    --white: {{ settings.color_white | default: '#FFFFFF' }};
+    --ink: {{ settings.color_ink | default: '#151413' }};
+    --stone: {{ settings.color_stone | default: '#8C857C' }};
+    --sand: {{ settings.color_sand | default: '#E6DFD4' }};
+    --clay: {{ settings.color_clay | default: '#9A5B45' }};
+    --radius: {{ settings.button_radius | default: 0 }}px;
+    {%- if settings.font_source == 'self' %}
+    --font-display: 'Herloom Display', Georgia, serif;
+    --font-body: 'Herloom Sans', 'Helvetica Neue', Arial, sans-serif;
+    {%- endif %}
+  }
+</style>

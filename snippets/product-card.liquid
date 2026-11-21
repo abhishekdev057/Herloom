@@ -1,0 +1,94 @@
+{%- comment -%}
+  Product card. Params: product, sizes (img sizes attr), show_quick_add (bool, default true), eager
+{%- endcomment -%}
+{%- liquid
+  assign card_sizes = sizes | default: '(min-width: 1024px) 25vw, 50vw'
+  assign img1 = product.featured_media.preview_image
+  assign img2 = product.media[1].preview_image
+  assign mto = product.metafields.custom.made_to_order.value
+  if product.metafields.custom.made_to_order == blank
+    assign mto = settings.default_made_to_order
+  endif
+
+  assign size_index = nil
+  assign colour_index = nil
+  for option in product.options_with_values
+    assign oname = option.name | downcase
+    if oname == 'size'
+      assign size_index = forloop.index0
+    elsif oname == 'color' or oname == 'colour'
+      assign colour_index = forloop.index0
+    endif
+  endfor
+-%}
+<article class="card reveal" data-product-card data-product-handle="{{ product.handle }}">
+  <div class="card__media">
+    {%- if mto -%}<span class="card__badge badge badge--mto">{{ 'product.made_to_order' | t }}</span>{%- endif -%}
+
+    <button class="card__wish" type="button" aria-pressed="false" aria-label="{{ 'wishlist.toggle' | t: title: product.title | escape }}" data-wishlist-toggle="{{ product.handle }}">
+      {% render 'icon', name: 'heart' %}
+    </button>
+
+    {%- if img1 -%}
+      {%- assign alt1 = img1.alt | default: product.title -%}
+      {% render 'media-image', image: img1, sizes: card_sizes, alt: alt1, eager: eager, widths: '300, 450, 600, 800, 1000' %}
+      {%- if img2 -%}
+        {%- assign alt2 = img2.alt | default: product.title -%}
+        {{ img2 | image_url: width: 1000 | image_tag: widths: '300, 450, 600, 800, 1000', sizes: card_sizes, alt: alt2, class: 'card__img-2', loading: 'lazy' }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+
+    {%- if show_quick_add != false and size_index != nil and product.available -%}
+      <div class="card__quick" data-quick-add>
+        <span class="meta">{{ 'product.quick_add' | t }}</span>
+        <div class="card__quick-sizes" role="group" aria-label="{{ 'product.size' | t }}">
+          {%- assign size_option = product.options_with_values[size_index] -%}
+          {%- for value in size_option.values -%}
+            {%- liquid
+              assign match = nil
+              for v in product.variants
+                if v.options[size_index] == value
+                  if colour_index == nil or v.options[colour_index] == product.selected_or_first_available_variant.options[colour_index]
+                    assign match = v
+                    break
+                  endif
+                endif
+              endfor
+            -%}
+            {%- if match -%}
+              <button type="button" data-quick-variant="{{ match.id }}" {% unless match.available %}disabled{% endunless %} aria-label="{{ 'product.add_size' | t: size: value | escape }}">{{ value }}</button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="card__info">
+    <div class="card__row">
+      <h3 class="card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+      <span class="card__price">{% render 'price', product: product %}</span>
+    </div>
+    <div class="card__row">
+      {%- if colour_index != nil -%}
+        <div class="swatches" aria-label="{{ 'product.colours_available' | t: count: product.options_with_values[colour_index].values.size }}">
+          {%- for value in product.options_with_values[colour_index].values limit: 5 -%}
+            {%- liquid
+              assign swatch_bg = value | handle
+              if value.swatch.color
+                assign swatch_bg = value.swatch.color
+              elsif value.swatch.image
+                assign swatch_bg = value.swatch.image | image_url: width: 24 | prepend: 'url(' | append: ')'
+              endif
+            -%}
+            <span class="swatch" style="--swatch: {{ swatch_bg }}" title="{{ value | escape }}"></span>
+          {%- endfor -%}
+        </div>
+      {%- else -%}<span></span>{%- endif -%}
+      {%- assign fabric = product.metafields.custom.fabric.value -%}
+      {%- if fabric != blank -%}<span class="meta muted">{{ fabric }}</span>{%- endif -%}
+    </div>
+  </div>
+</article>

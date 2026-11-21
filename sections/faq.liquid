@@ -1,0 +1,33 @@
+<section class="section faq">
+  <div class="page-width faq__inner">
+    <div class="faq__head">
+      <p class="meta muted">{{ section.settings.eyebrow }}</p>
+      <h2 class="h2">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="accordion faq__list">
+      {%- for block in section.blocks -%}
+        <details {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question }}<span class="plus" aria-hidden="true"></span></summary>
+          <div class="accordion__body rte">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ / accordion",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Help" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Questions, answered." }
+  ],
+  "blocks": [
+    { "type": "item", "name": "Question", "settings": [
+      { "type": "text", "id": "question", "label": "Question", "default": "How long does a made-to-order shirt take?" },
+      { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Each shirt is cut and stitched after you order. Most pieces ship in 7–10 days.</p>" }
+    ] }
+  ],
+  "presets": [{ "name": "FAQ / accordion", "blocks": [ { "type": "item" } ] }]
+}
+{% endschema %}
